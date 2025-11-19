@@ -41,7 +41,7 @@ public class Instrutor {
 		this.idade = idade;
 	}
 	
-	// @OneToMany(mappedBy = "instrutor")
-	// private List<Curso> cursos;
+	@OneToMany(mappedBy = "instrutor")
+	private List<Curso> cursos;
 
 }
