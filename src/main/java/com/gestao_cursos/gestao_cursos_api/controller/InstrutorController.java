@@ -1,58 +1,58 @@
 package com.gestao_cursos.gestao_cursos_api.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.gestao_cursos.gestao_cursos_api.entity.Instrutor;
 import com.gestao_cursos.gestao_cursos_api.repository.InstrutorRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/instrutores")
+@RequestMapping("/instrutores")
 public class InstrutorController {
-	
-	@Autowired
-	InstrutorRepository instrutorRepository;
-	
+
+	private final InstrutorRepository instrutorRepository;
+
+	public InstrutorController(InstrutorRepository instrutorRepository) {
+		this.instrutorRepository = instrutorRepository;
+	}
+
 	@GetMapping
-	public List<Instrutor> listarInstrutores(){
+	public List<Instrutor> listar() {
 		return instrutorRepository.findAll();
 	}
-	
+
+	@GetMapping("/{id}")
+	public Instrutor obterPorId(@PathVariable @NonNull Long id) {
+		return instrutorRepository.findById(id)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Instrutor não encontrado"));
+	}
+
 	@PostMapping
-	public Instrutor salvarInstrutor(@RequestBody Instrutor instrutor) {
-		return instrutorRepository.save(instrutor);
+	public ResponseEntity<Instrutor> criar(@RequestBody @NonNull Instrutor instrutor) {
+		Instrutor salvo = instrutorRepository.save(instrutor);
+		return new ResponseEntity<>(salvo, HttpStatus.CREATED);
 	}
-	
-	@DeleteMapping("/{id}")
-	public void deletarInstrutor(@PathVariable Long id) {
-		instrutorRepository.deleteById(id);
-	}
-	
+
 	@PutMapping("/{id}")
-	public Instrutor atualizarInstrutor(@PathVariable Long id,
-										@RequestBody Instrutor instrutor) {
-		Optional<Instrutor> oInstrutor = instrutorRepository.findById(id);
-		if (oInstrutor.isPresent()) {
-			Instrutor i = oInstrutor.get();
-			i.setNome(instrutor.getNome());
-			i.setFormacao(instrutor.getFormacao());
-			i.setIdade(instrutor.getIdade());
-			
-			return instrutorRepository.save(i);
-		}
-		return null;
+	public Instrutor atualizar(@PathVariable @NonNull Long id, @RequestBody @NonNull Instrutor dados) {
+		Instrutor existente = instrutorRepository.findById(id)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Instrutor não encontrado"));
+		existente.setNome(dados.getNome());
+		existente.setFormacao(dados.getFormacao());
+		existente.setIdade(dados.getIdade());
+		return instrutorRepository.save(existente);
 	}
-	
-	
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletar(@PathVariable @NonNull Long id) {
+		Instrutor existente = instrutorRepository.findById(id)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Instrutor não encontrado"));
+		instrutorRepository.delete(Objects.requireNonNull(existente));
+		return ResponseEntity.noContent().build();
+	}
 }

@@ -7,10 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -84,6 +82,4 @@ public class Curso {
 			", instrutor=" + (instrutor != null ? instrutor.getId() : null) +
 			'}';
 	}
-    @OneToMany(mappedBy = "instrutor")
-	private List<Curso> cursos;
 }
