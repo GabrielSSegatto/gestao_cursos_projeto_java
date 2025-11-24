@@ -66,12 +66,6 @@ public class Curso {
 		Curso curso = (Curso) o;
 		return Objects.equals(id, curso.id);
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
 	@Override
 	public String toString() {
 		return "Curso{" +
