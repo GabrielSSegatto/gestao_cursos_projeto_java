@@ -1,16 +1,15 @@
 package com.gestao_cursos.gestao_cursos_api.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
+
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -36,14 +35,6 @@ public class Curso {
 	@ManyToOne
 	@JoinColumn(name = "id_instrutor", nullable = false)
 	private Instrutor instrutor;
-
-	@ManyToMany
-	@JoinTable(
-		name = "curso_aluno",
-		joinColumns = @JoinColumn(name = "id_curso"),
-		inverseJoinColumns = @JoinColumn(name = "id_aluno")
-	)
-	private List<Aluno> alunos = new ArrayList<>();
 
 	public Curso() {
 	}
@@ -72,9 +63,6 @@ public class Curso {
 	public Instrutor getInstrutor() { return instrutor; }
 	public void setInstrutor(Instrutor instrutor) { this.instrutor = instrutor; }
 
-	public List<Aluno> getAlunos() { return alunos; }
-	public void setAlunos(List<Aluno> alunos) { this.alunos = alunos; }
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -93,10 +81,8 @@ public class Curso {
 			", nome='" + nome + '\'' +
 			", cargaHoraria=" + cargaHoraria +
 			", descricao='" + descricao + '\'' +
-			", instrutor=" + (instrutor != null ? instrutor.getId() : null) + '\'' +
-			", List<Aluno>=" + (List<Aluno> != null ? List<Aluno>.getID() : null) +
+			", instrutor=" + (instrutor != null ? instrutor.getId() : null) +
 			'}';
 	}
 
-	
 }
