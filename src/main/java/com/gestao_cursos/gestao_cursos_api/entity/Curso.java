@@ -11,9 +11,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "curso")
@@ -35,6 +39,10 @@ public class Curso {
 	@ManyToOne
 	@JoinColumn(name = "id_instrutor", nullable = false)
 	private Instrutor instrutor;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "curso")
+	private List<CursoAluno> matriculas;
 
 	public Curso() {
 	}
@@ -62,6 +70,14 @@ public class Curso {
 
 	public Instrutor getInstrutor() { return instrutor; }
 	public void setInstrutor(Instrutor instrutor) { this.instrutor = instrutor; }
+	
+	public List<CursoAluno> getMatriculas() {
+		return matriculas;
+	}
+
+	public void setMatriculas(List<CursoAluno> matriculas) {
+		this.matriculas = matriculas;
+	}
 
 	@Override
 	public int hashCode() {

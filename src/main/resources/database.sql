@@ -1,11 +1,9 @@
--- 1. DELETAR E RE-CRIAR (COMEÇANDO DO ZERO)
+
 DROP DATABASE IF EXISTS gerenciador_cursos;
 CREATE DATABASE gerenciador_cursos;
 USE gerenciador_cursos;
 
--- 2. CRIAÇÃO DAS TABELAS (AGORA COM BIGINT PARA OS IDs)
 CREATE TABLE instrutor (
-    -- ID e PK alterados para BIGINT para compatibilidade com Java Long
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(200) NOT NULL,
     formacao VARCHAR(200) NOT NULL,
@@ -18,7 +16,6 @@ CREATE TABLE curso (
     carga_horaria INT NOT NULL,
     descricao VARCHAR(200) NOT NULL,
     
-    -- Foreign Key (FK) alterada para BIGINT para compatibilidade com instrutor.id
     id_instrutor BIGINT NOT NULL,
     FOREIGN KEY (id_instrutor) REFERENCES instrutor(id)
         ON DELETE CASCADE
@@ -33,7 +30,6 @@ CREATE TABLE aluno (
 );
 
 CREATE TABLE curso_aluno (
-    -- Chaves Estrangeiras alteradas para BIGINT
     id_curso BIGINT NOT NULL,
     id_aluno BIGINT NOT NULL,
     data_matricula DATE DEFAULT (CURRENT_DATE),

@@ -28,17 +28,27 @@ public class CursoAluno implements Serializable {
 	public CursoAluno() {}
 
 	public CursoAluno(Curso curso, Aluno aluno, LocalDate dataMatricula) {
-		this.curso = curso;
-		this.aluno = aluno;
-		this.dataMatricula = dataMatricula;
-		this.id = new CursoAlunoId(curso.getId(), aluno.getId());
+	    this.id = new CursoAlunoId(); 
+	    this.dataMatricula = dataMatricula;
+	    this.setCurso(curso); 
+	    this.setAluno(aluno); 
 	}
 
 	public Curso getCurso() { return curso; }
-	public void setCurso(Curso curso) { this.curso = curso; }
+	public void setCurso(Curso curso) { 
+	    this.curso = curso; 
+	    if (this.id != null && curso != null) {
+	        this.id.setIdCurso(curso.getId()); 
+	    }
+	}
 
 	public Aluno getAluno() { return aluno; }
-	public void setAluno(Aluno aluno) { this.aluno = aluno; }
+	public void setAluno(Aluno aluno) { 
+	    this.aluno = aluno; 
+	    if (this.id != null && aluno != null) {
+	        this.id.setIdAluno(aluno.getId()); 
+	    }
+	}
 
 	public LocalDate getDataMatricula() { return dataMatricula; }
 	public void setDataMatricula(LocalDate dataMatricula) { this.dataMatricula = dataMatricula; }

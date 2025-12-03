@@ -1,6 +1,13 @@
 package com.gestao_cursos.gestao_cursos_api.entity;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +21,13 @@ public class Aluno {
     private String nome;
     private String matricula;
     private Integer idade;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "aluno")
+    private List<CursoAluno> matriculas;
+    
+    public Aluno() {}
+    
     public Long getId() {
         return id;
     }
@@ -37,6 +51,28 @@ public class Aluno {
     }
     public void setIdade(Integer idade) {
         this.idade = idade;
+    }
+
+	public List<CursoAluno> getMatriculas() {
+		return matriculas;
+	}
+
+	public void setMatriculas(List<CursoAluno> matriculas) {
+		this.matriculas = matriculas;
+	}
+    
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Aluno)) return false;
+        Aluno aluno = (Aluno) o;
+        return Objects.equals(id, aluno.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
    
 }

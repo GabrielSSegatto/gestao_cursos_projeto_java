@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Instrutor {
 	@Id
@@ -40,7 +42,14 @@ public class Instrutor {
 	public void setIdade(Integer idade) {
 		this.idade = idade;
 	}
-	
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "instrutor")
 	private List<Curso> cursos;
 
